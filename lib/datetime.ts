@@ -12,9 +12,9 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(advancedFormat)
 
-
-// BUG: Come back here and figure out when a time is over a month the hours appears ten hours short... from 17:xx to 7:xx. Works appropriately up until 1 month
 dayjs.tz.setDefault("America/Chicago")
+
+console.log("dayjs: ", dayjs)
 
 interface TimeConfig {
     seconds?: number
@@ -61,13 +61,15 @@ export class DateTime {
     timezone: string
     flat: boolean = false
     constructor(t: Date | string | Dayjs) {
+        console.log("t: ", t, typeof t)
         this.timezone = this.getTimezone()
-        this.dayjs = dayjs.isDayjs(t) ? t : t instanceof Date ? dayjs(t) : dayjs(t, 'M-DD-YYYY H:mm:ss a').tz(this.timezone)
+        this.dayjs = dayjs.isDayjs(t) ? t : t instanceof Date ? dayjs(t) : dayjs(t, 'M-D-YYYY H:mm:ss a').tz(this.timezone)
+        console.log("this.dayjs: ", this.dayjs)
         this.t = this.dayjs.toDate()
     }
 
     private getTimezone() {
-        return Intl.DateTimeFormat().resolvedOptions().timeZone || "America/Chicago"
+        return "America/Chicago"
     }
 
     djs(t: Date | string | Dayjs) {
@@ -121,7 +123,9 @@ export class DateTime {
         return s
     }
 
-    getFlattenedDiff(t: Date = new Date()) {
+    getFlattenedDiff(t: Dayjs = dayjs()) {
+        console.log("this.t: ", this.t)
+        console.log("t: ", t)
         let s = (this.t.valueOf() - t.valueOf()) / 1000
         let months = Math.floor(s / secondsMap.months[30])
         s = s - months * secondsMap.months[30]
@@ -171,6 +175,7 @@ export class DateTime {
 
     private relativeTimeAnalog() {
         let flat = this.getFlattenedDiff()
+        console.log("flat: ", flat)
         let s = ''
         if (flat.months > 0) {
             s += `${flat.months} ${flat.months === 1 ? 'month' : 'months'} `

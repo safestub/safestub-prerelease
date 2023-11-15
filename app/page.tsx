@@ -3,6 +3,7 @@ import FacebookSocialIcon from '#/components/facebook'
 import HeroAnimatedTitle from '#/components/heroanimatedtitle'
 import InstagramSocialIcon from '#/components/instagram'
 import TwitterXSocialIcon from '#/components/twitterX'
+import { Button } from '#/components/ui/button'
 import { appConfig } from '#/lib/appConfig'
 import clsx from 'clsx'
 
@@ -10,9 +11,9 @@ import clsx from 'clsx'
 
 const IconButton = ({ children, className }: { children: React.ReactNode, className?: string }) => {
     return (
-        <div className={clsx("p-2 rounded-md bg-black bg-opacity-0 hover:bg-opacity-30 cursor-pointer transition-colors duration-300 group/iconButton", className && className)}>
+        <Button variant="outline" size="icon" className={"group/iconBtn"}>
             {children}
-        </div>
+        </Button>
     )
 }
 
@@ -20,7 +21,7 @@ export default function Home() {
     return (
         <div className={"w-full h-screen flex flex-col justify-center items-center gap-3 group/heroContainer relative"} id={"hero-container"}>
             <Countdown />
-            <div className={"flex flex-col justify-center items-center w-fit h-full gap-4"}>
+            <div className={"flex flex-col justify-center items-center w-fit h-full gap-4 max-w-[calc(100vw-32px)]"}>
                 <div className={"grid grid-cols-[1fr_auto_1fr] w-full place-items-center gap-2"}>
                     <div className={"h-[2px] bg-gray-300 bg-opacity-70 w-full origin-right scale-x-0 hero-label-line transition-[opacity,transform] duration-300 delay-1000 group-[.isLoaded]/heroContainer:scale-x-100"} />
                     <p className={"text-md text-[4vw] lg:text-2xl text-foreground opacity-0 transition-[opacity,transform] duration-300 translate-y-8 group-[.isLoaded]/heroContainer:translate-y-0  group-[.isLoaded]/heroContainer:opacity-100 delay-700"}>{appConfig.landing.subtitle}</p>
