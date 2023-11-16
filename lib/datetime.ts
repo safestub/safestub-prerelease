@@ -16,6 +16,14 @@ dayjs.tz.setDefault("America/Chicago")
 
 console.log("dayjs: ", dayjs)
 
+export interface TimeDiff {
+    months: number
+    days: number
+    hours: number
+    minutes: number
+    seconds: number
+}
+
 interface TimeConfig {
     seconds?: number
     minutes?: number
@@ -52,7 +60,7 @@ const secondsMap = {
     }
 }
 
-export type TimeDisplayType = "analog" | "summarized" | "descriptive"
+export type TimeDisplayType = "analog" | "summarized" | "descriptive" | "diff"
 
 export class DateTime {
     t: Date
@@ -76,7 +84,7 @@ export class DateTime {
         return dayjs.tz(t, this.timezone)
     }
 
-    updateOnInterval(intervalSeconds: number, type: TimeDisplayType, callback: (s: string) => void) {
+    updateOnInterval(intervalSeconds: number, type: TimeDisplayType, callback: (s: string | ReturnType<typeof this.getFlattenedDiff>) => void) {
         let interval = setInterval(() => {
             callback(this.relativeTime(type))
         }, intervalSeconds * 1000)
@@ -136,7 +144,7 @@ export class DateTime {
         let minutes = Math.floor(s / secondsMap.minutes)
         s = s - minutes * secondsMap.minutes
         let seconds = Math.floor(s)
-        let res = {
+        let res: TimeDiff = {
             months,
             days,
             hours,
@@ -201,10 +209,11 @@ export class DateTime {
         return this.dayjs.local().fromNow(this.withoutSuffix)
     }
 
-    relativeTime(type: "descriptive" | "analog" | "summarized") {
+    relativeTime(type: "descriptive" | "analog" | "summarized" | "diff") {
         if (type === "analog") return this.relativeTimeAnalog()
         if (type === "summarized") return this.relativeTimeSummarized()
         if (type === "descriptive") return this.relativeTimeDescriptive()
+        if (type === "diff") return this.getFlattenedDiff()
         return ""
     }
 
