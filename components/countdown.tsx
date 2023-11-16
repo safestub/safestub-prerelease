@@ -8,8 +8,8 @@ const CountdownItem = ({ label, value }: { label: string, value?: number }) => {
     if (typeof value !== "number") return null
     return (
         <div className={"grid grid-cols-1 grid-rows-[1fr_auto] gap-2"}>
-            <div className={"font-extrabold text-3xl place-self-center py-3"}>{value}</div>
-            <div className={"font-light  w-full text-center bg-primary text-primary-foreground px-2 rounded-sm"}>{label}</div>
+            <div className={"font-extrabold text-xl sm:text-3xl place-self-center py-1 sm:py-3"}>{value}</div>
+            <div className={"font-light text-sm sm:text-base w-full text-center bg-primary text-primary-foreground px-2 rounded-sm"}>{label}</div>
         </div>
     )
 }
@@ -25,7 +25,7 @@ const Countdown = () => {
     }, [])
     return (
         <div
-            className={"grid grid-cols-[96px_96px_96px_96px_96px] gap-2 border p-2 rounded-md"}
+            className={"grid grid-cols-[1fr_1fr_1fr_1fr_1fr] md:sm:grid-cols-[96px_96px_96px_96px_96px] gap-2 border p-2 rounded-md"}
             style={{
                 /* background-color: "rgb(2,0,36)", */
                 background: "linear-gradient(0deg, rgba(0,36,0,1) 0%, rgba(41,66,41,1) 52%, rgba(33,197,94,1) 100%)"
